@@ -1,6 +1,7 @@
 import { ConvertActionBindingResult } from '@angular/compiler/src/compiler_util/expression_converter';
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { Recipe } from '../recipe.model'
+import { Component, OnInit} from '@angular/core';
+import { Recipe } from '../recipe.model';
+import { RecipeService } from '../recipe.service';
 
 @Component({
   selector: 'app-recipe-list',
@@ -9,21 +10,15 @@ import { Recipe } from '../recipe.model'
 })
 export class RecipeListComponent implements OnInit {
   
-  @Output() recipeWasSelected = new EventEmitter<Recipe>();
-  
-  recipes: Recipe[] = [
-    new Recipe('Test', 'Test description', 'https://images.pexels.com/photos/4147872/pexels-photo-4147872.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500'),
-    new Recipe('Tasty', 'Tasty description', 'https://images.pexels.com/photos/4147872/pexels-photo-4147872.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500')
-  ];
+  recipes: Recipe[];
 
-  constructor() { }
 
-  ngOnInit(): void {
+  constructor(private recipeService: RecipeService) { }
+
+  ngOnInit() {
+    this.recipes = this.recipeService.getRecipes();
   }
 
-  onRecipeSelected(recipe: Recipe) {
-    this.recipeWasSelected.emit(recipe);
-   
-  }
+ 
 
 }
